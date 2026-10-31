@@ -1,0 +1,44 @@
+# OS・エディター
+.DS_Store
+.idea/
+.vscode/
+
+# 端末設定・認証情報・個人情報
+.env
+.env.*
+!.env.example
+!.env.*.example
+*.local
+*.local.*
+secrets/
+private/
+backups/
+recordings/
+captures/
+logs/
+.stackchan-usb-serial
+*.pem
+*.key
+*.p12
+*.pfx
+*.der
+
+# 書き込み用バイナリーとビルド成果物
+*.bin
+*.elf
+*.mrb
+build/
+.pio/
+vendor/
+
+# 言語環境・生成物
+.venv/
+__pycache__/
+.pytest_cache/
+node_modules/
+cdk.out/
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+*.tfvars.json
