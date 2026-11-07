@@ -40,6 +40,16 @@ M5Unified 0.2.21の依存宣言に合わせてM5GFX 0.2.28を選ぶ。M5StackCha
 
 生成物は`build/minimal_offline/`へ入る。`.tools/`、`private/`、`build/`はGit管理対象外。
 
+## 本体なしの回帰テスト
+
+本体なしで初期化判定の回帰テストを行う場合は、MacのCommand Line Toolsに含まれるC++コンパイラーを使う。
+
+```bash
+./scripts/test-minimal.sh
+```
+
+機器との通信をスタブに置き換え、実際のスケッチの判定処理を実行する。実機での動作確認は別に行う。
+
 ## Mac全体の環境と分ける
 
 `scripts/arduino.sh`が次の保存先を設定する。
