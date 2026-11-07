@@ -1,0 +1,16 @@
+{
+  "checked_on": "2026-11-07",
+  "command": "./scripts/build-minimal.sh",
+  "exit_code": 0,
+  "fqbn": "m5stack:esp32:m5stack_cores3",
+  "sketch_program_bytes": 538970,
+  "program_capacity_bytes": 3145728,
+  "static_global_bytes": 26732,
+  "static_ram_capacity_bytes": 327680,
+  "compiler_warning_count": 444,
+  "sketch_warning_count": 0,
+  "hardware_tested": false,
+  "flashed": false,
+  "source_sha256": "ea124abd244b086f6a82fd67994cbe137eb97cf05fd51c05ce3ef419c693b97c",
+  "firmware_sha256": "d1483e5380fdc8596aac5a916ca7ddf9f33ba8b3a1cf20196f7be5f43686c8f2"
+}
