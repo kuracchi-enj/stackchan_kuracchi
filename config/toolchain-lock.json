@@ -1,0 +1,57 @@
+{
+  "recorded_on": "2026-11-07",
+  "host": {
+    "os": "macOS",
+    "arch": "arm64"
+  },
+  "arduino_cli": {
+    "version": "1.5.1",
+    "url": "https://downloads.arduino.cc/arduino-cli/arduino-cli_1.5.1_macOS_ARM64.tar.gz",
+    "sha256": "cb952e8c1621c95ef5f1d17831c945e3d0ec5973f89c557a7ec8feb9c4f7d4c9"
+  },
+  "core": {
+    "package": "m5stack:esp32",
+    "version": "3.2.2",
+    "url": "https://m5stack.oss-cn-shenzhen.aliyuncs.com/resource/arduino/m5stack-3.2.2.zip",
+    "checksum": "SHA-256:24cf5d2c6cd92a12d50932ffdb5019ff02758e74067d0e3d7926f4ab95205277"
+  },
+  "fqbn": "m5stack:esp32:m5stack_cores3",
+  "libraries": [
+    {
+      "name": "M5StackChan",
+      "version": "1.1.1",
+      "url": "https://downloads.arduino.cc/libraries/github.com/m5stack/M5StackChan-1.1.1.zip",
+      "checksum": "SHA-256:bed87c78b9130989c28399caf9138c1be08dd60898a7139d8e828824356cc2ee"
+    },
+    {
+      "name": "M5Unified",
+      "version": "0.2.21",
+      "url": "https://downloads.arduino.cc/libraries/github.com/m5stack/M5Unified-0.2.21.zip",
+      "checksum": "SHA-256:5e6b7b1525c278b194cb1e2814730c37cacd830a39fef103fa78065b23c94b19"
+    },
+    {
+      "name": "M5GFX",
+      "version": "0.2.28",
+      "url": "https://downloads.arduino.cc/libraries/github.com/m5stack/M5GFX-0.2.28.zip",
+      "checksum": "SHA-256:536ee7602cfbe9116761221ea9ef839a66aa59ee9844e8533325bda58963484f"
+    }
+  ],
+  "board_options": {
+    "UploadSpeed": "921600",
+    "USBMode": "hwcdc",
+    "CDCOnBoot": "cdc",
+    "MSCOnBoot": "default",
+    "DFUOnBoot": "default",
+    "UploadMode": "default",
+    "CPUFreq": "240",
+    "FlashMode": "qio",
+    "FlashSize": "16M",
+    "PartitionScheme": "app3M_fat9M_16MB",
+    "DebugLevel": "none",
+    "PSRAM": "enabled",
+    "LoopCore": "1",
+    "EventsCore": "1",
+    "EraseFlash": "none",
+    "JTAGAdapter": "default"
+  }
+}

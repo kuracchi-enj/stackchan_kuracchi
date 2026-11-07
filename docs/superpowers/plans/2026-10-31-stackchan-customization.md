@@ -1,6 +1,6 @@
 # StackChanカスタマイズ計画・初版
 
-作成日：2026-10-31。状態：計画のみ。実機操作・ファームウェアのビルド・AWSへの変更は未実施。
+作成日：2026-10-31。方針更新：2026-11-07。状態：段階1の事前準備を開始。実機操作・書き込み・AWSへの変更は未実施。ビルド結果は[検証記録](../../verification/phase1.md)を参照。
 
 > 実装担当エージェントへ：実行時は`executing-plans`を使い、各段階の完了条件を確かめて進める。この文書の作成は実装開始を意味しない。
 
@@ -74,6 +74,16 @@ PicoRuby段階では、[stackchan-picoruby](https://github.com/bash0C7/stackchan
 4. 認証情報は公開ソース・ログ・ファームウェアの配布物に含めない。
 5. 書き込み成功、実機動作、AWS接続、MCPツール呼び出しは、それぞれ別の証拠として記録する。
 
+### 2026-11-07に合意した開始方法
+
+標準のAI会話・スマホ連携を引き継がず、画面とLEDだけの最小プログラムへ置き換える。フラッシュ全体を先に空にする操作は行わない。初期動作の確認、紐付け済みなら解除、復旧用ファームウェアの確保を済ませてから書き込む。
+
+本体が手元にない間は、最小プログラム・開発環境・操作手順の準備を進める。型番や実機動作は未確認のまま扱い、実機確認を省略したことにはしない。
+
+最初のプログラムは`firmware/arduino/minimal_offline/minimal_offline.ino`。公式BSPの一括初期化がサーボ電源も有効にするため、画面と台座I/O拡張を必要な範囲で初期化し、サーボ電源には無効化命令を送る。実際の動作は初回書き込み後に確認する。
+
+自動でビルドを再現するためArduino CLIを使う。C++とM5Stackの公式ライブラリーを使う方針は同じで、Arduino IDEの導入は必須としない。
+
 ## 3. 準備：型番・初期状態・復旧を確認する
 
 目安：2〜4時間。必要なものは本体、データ通信できるUSB-Cケーブル、Mac、動かせる机上のスペース。ネットワークは段階3で2.4GHz Wi-Fiを使う。
@@ -104,11 +114,11 @@ PicoRuby段階では、[stackchan-picoruby](https://github.com/bash0C7/stackchan
 
 ### 1-A：公式サンプルを動かす
 
-- [ ] Arduino IDEを用意し、M5Stackのボード定義を追加する。
-- [ ] 公式のStackChan手順に沿ってボードを`M5CoreS3`にし、ライブラリーマネージャーから`M5StackChan`と依存ライブラリーを入れる。
-- [ ] 画面サンプルの公開要件であるM5Stackボード定義3.2.2以上、M5Unified 0.2.11以上、M5GFX 0.2.18以上を満たす互換な組み合わせを選ぶ。実際に通った版を固定し、途中で一斉更新しない。[画面サンプルの要件](https://docs.m5stack.com/en/arduino/stackchan/display)
-- [ ] 公式RGB LEDサンプルをコンパイルする。まだ本体へ書き込まず、エラーがないことを確認する。
-- [ ] 復旧準備を確認後、対象ポートへ書き込む。LEDの色を一か所だけ変え、もう一度書き込んで変化を確かめる。
+- [x] 初回は[開発環境](../../toolchain.md)に沿ってArduino CLIで最小プログラムをビルドする。Arduino IDEは必要になったら追加する。
+- [x] 公式のStackChan手順に沿ってボードを`M5CoreS3`にし、`M5StackChan`と使用する依存ライブラリーを入れる。実物の型番との照合は未完了。
+- [x] 画面サンプルの公開要件であるM5Stackボード定義3.2.2以上、M5Unified 0.2.11以上、M5GFX 0.2.18以上を満たす互換な組み合わせを選ぶ。実際に通った版を固定し、途中で一斉更新しない。[画面サンプルの要件](https://docs.m5stack.com/en/arduino/stackchan/display)
+- [x] 公式RGB LEDサンプルのAPIを参照し、サーボ電源を有効にする命令を送らない`minimal_offline`をコンパイルする。本体へはまだ書き込んでいない。
+- [ ] 復旧準備を確認後、対象ポートへ最小プログラムを書き込む。LEDの色を一か所だけ変え、もう一度書き込んで変化を確かめる。
 - [ ] 次に画面表示とタッチ入力を個別に確認する。これで「コード変更→コンパイル→USB書き込み→本体で確認」の流れを覚える。
 
 **成果物：** `firmware/arduino/first_reaction/first_reaction.ino`、`docs/verification/phase1.md`。
@@ -397,11 +407,13 @@ MQTTのQoS 1は重複があり得る。IoTからのLambda呼び出しも非同�
 
 ## 10. ファイル構成、作業順、見積もり
 
-初版として作るのはREADME、この計画、調査メモ、`.gitignore`だけ。以下のコードや検証ファイルは実装時に作る予定。
+初版ではREADME、この計画、調査メモ、`.gitignore`を作成した。2026-11-07には、最小プログラムとビルド環境・確認手順も準備した。以下には準備済みのものと今後作るものを含む。実施状況は[検証記録](../../verification/phase1.md)に残す。
 
 ```text
 README.md
 .gitignore
+config/                           ビルド設定と依存バージョン
+scripts/                          セットアップとビルド
 docs/
   research/2026-10-31-stackchan-feasibility.md
   superpowers/plans/2026-10-31-stackchan-customization.md
@@ -409,10 +421,12 @@ docs/
   recovery.md
   toolchain.md
   provisioning.md
+  first-flash.md
   verification/phase1.md
   verification/phase2.md
   verification/phase3.md
 firmware/
+  arduino/minimal_offline/minimal_offline.ino
   arduino/first_reaction/first_reaction.ino
   picoruby/apps/first_reaction.rb
   picoruby/apps/cloud_reaction.rb

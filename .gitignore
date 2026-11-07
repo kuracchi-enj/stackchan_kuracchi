@@ -2,6 +2,7 @@
 .DS_Store
 .idea/
 .vscode/
+.tools/
 
 # 端末設定・認証情報・個人情報
 .env
