@@ -9,6 +9,7 @@ static_assert(PY32IOEXPANDER_STATUS_API,
 
 namespace {
 constexpr uint8_t kServoPowerPin = 0;
+constexpr uint8_t kGpioOutputLowRegister = 0x05;
 constexpr uint8_t kLedOutputPin = 13;
 constexpr uint8_t kLedCount = 12;
 constexpr uint8_t kLedBlue = 16;  // 最初のカスタムは、この色を変える。
@@ -41,7 +42,11 @@ bool initializeBase() {
       !base.setDirection(kServoPowerPin, true)) {
     return false;
   }
-  if (base.getWriteValue(kServoPowerPin)) {
+  // getWriteValue()は読み取り失敗もfalseにするため、成功状態と値を分ける。
+  uint8_t gpioOutputs = 0;
+  if (!base.readRegister(kGpioOutputLowRegister, &gpioOutputs,
+                         sizeof(gpioOutputs)) ||
+      (gpioOutputs & (1U << kServoPowerPin)) != 0) {
     return false;
   }
 
