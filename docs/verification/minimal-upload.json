@@ -1,0 +1,19 @@
+{
+  "checked_on": "2026-11-08",
+  "model_reported_by_user": "K151",
+  "chip_read_from_device": "ESP32-S3",
+  "flash_size_bytes": 16777216,
+  "fqbn": "m5stack:esp32:m5stack_cores3",
+  "erase_all": false,
+  "baud": 115200,
+  "upload_exit_code": 0,
+  "verified_transfer_regions": 4,
+  "source_sha256": "c79d63a3e3dfe2761c120416939116f600a7b50a49cf7b0af81bad156f151b11",
+  "firmware_sha256": "fabbbb8eb2b35b074482ef092a918e293315891b0934cf6f28bee4588c764645",
+  "physical_screen_observation": null,
+  "physical_led_observation": null,
+  "physical_motion_and_temperature_observation": null,
+  "power_cycle_test_completed": false,
+  "ten_minute_observation_completed": false,
+  "restore_tested": false
+}
