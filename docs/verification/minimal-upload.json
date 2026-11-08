@@ -1,0 +1,51 @@
+{
+  "checked_on": "2026-11-08",
+  "model_reported_by_user": "K151",
+  "chip_read_from_device": "ESP32-S3",
+  "flash_size_bytes": 16777216,
+  "fqbn": "m5stack:esp32:m5stack_cores3",
+  "erase_all": false,
+  "baud": 115200,
+  "upload_exit_code": 0,
+  "verified_transfer_regions": 4,
+  "source_sha256": "c79d63a3e3dfe2761c120416939116f600a7b50a49cf7b0af81bad156f151b11",
+  "firmware_sha256": "fabbbb8eb2b35b074482ef092a918e293315891b0934cf6f28bee4588c764645",
+  "physical_screen_observation": {
+    "source": "user_report",
+    "minimal_offline_v0_1": true,
+    "offline_ready": true,
+    "servo_power_off_cmd": true
+  },
+  "physical_led_observation": {
+    "source": "user_report",
+    "dim_blue_blink": true,
+    "reported_approx_interval_ms": 500
+  },
+  "physical_motion_and_temperature_observation": {
+    "source": "user_report",
+    "unintended_motion": false,
+    "abnormal_noise": false,
+    "abnormal_heating": false,
+    "servo_supply_voltage_measured": false
+  },
+  "power_cycle_test_completed": true,
+  "ten_minute_observation_completed": true,
+  "restore_tested": false,
+  "power_cycle_count": 3,
+  "power_cycle_result": {
+    "source": "user_report",
+    "same_screen_and_led_each_time": true,
+    "abnormalities_reported": false
+  },
+  "ten_minute_observation_result": {
+    "source": "user_report",
+    "minimum_observation_seconds": 600,
+    "assistant_confirmed_minimum_time_elapsed": true,
+    "same_screen_and_led_continued": true,
+    "unexpected_restart_reported": false,
+    "unintended_motion_reported": false,
+    "abnormal_noise_reported": false,
+    "abnormal_heating_reported": false
+  },
+  "initial_flash_acceptance_passed": true
+}
