@@ -3,14 +3,17 @@
   "command": "./scripts/build-minimal.sh",
   "exit_code": 0,
   "fqbn": "m5stack:esp32:m5stack_cores3",
-  "sketch_program_bytes": 538970,
+  "sketch_program_bytes": 538994,
   "program_capacity_bytes": 3145728,
   "static_global_bytes": 26732,
   "static_ram_capacity_bytes": 327680,
-  "compiler_warning_count": 444,
+  "compiler_warning_count": 6,
   "sketch_warning_count": 0,
   "hardware_tested": false,
   "flashed": false,
-  "source_sha256": "ea124abd244b086f6a82fd67994cbe137eb97cf05fd51c05ce3ef419c693b97c",
-  "firmware_sha256": "d1483e5380fdc8596aac5a916ca7ddf9f33ba8b3a1cf20196f7be5f43686c8f2"
+  "source_sha256": "c79d63a3e3dfe2761c120416939116f600a7b50a49cf7b0af81bad156f151b11",
+  "firmware_sha256": "fabbbb8eb2b35b074482ef092a918e293315891b0934cf6f28bee4588c764645",
+  "build_kind": "incremental",
+  "host_regression_test_command": "./scripts/test-minimal.sh",
+  "host_regression_test_cases": 4
 }
