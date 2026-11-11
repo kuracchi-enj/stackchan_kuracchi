@@ -1,12 +1,14 @@
 #pragma once
 
 #include <M5StackChan.h>
+#include <array>
 
 #define PY32IOEXPANDER_STATUS_API 1
 
 namespace hardware_stub {
 inline bool readSucceeds = true;
 inline uint8_t gpioOutputLow = 0;
+inline std::array<uint8_t, 3> ledColor{};
 }
 
 namespace m5 {
@@ -36,7 +38,11 @@ class PY32IOExpander_Class {
 
   void setDriveMode(uint8_t, bool) {}
   void setLedCount(uint8_t) {}
-  void setLedColor(uint8_t, uint8_t, uint8_t, uint8_t) {}
+  void setLedColor(uint8_t index, uint8_t r, uint8_t g, uint8_t b) {
+    if (index == 0) {
+      hardware_stub::ledColor = {r, g, b};
+    }
+  }
   void refreshLeds() {}
 };
 }  // namespace m5

@@ -1,5 +1,6 @@
 #include <M5StackChan.h>
 #include <drivers/PY32IOExpander/PY32IOExpander.hpp>
+#include <drivers/Si12T/Si12T.h>
 
 // 対象はM5Stack製StackChan完成品。実機の型番確認後に書き込む。
 // M5StackChan.begin()はサーボ電源も有効にするため、ここでは使わない。
@@ -12,14 +13,22 @@ constexpr uint8_t kServoPowerPin = 0;
 constexpr uint8_t kGpioOutputLowRegister = 0x05;
 constexpr uint8_t kLedOutputPin = 13;
 constexpr uint8_t kLedCount = 12;
-constexpr uint8_t kLedBlue = 16;  // 最初のカスタムは、この色を変える。
+constexpr uint8_t kLedIntensity = 16;
+constexpr uint8_t kHeadTouchMask = 0x3F;  // 上部3区画の接触レベルを表す下位6ビット。
 constexpr uint32_t kBlinkIntervalMs = 500;
+constexpr uint32_t kTouchDebounceMs = 40;
 constexpr uint32_t kBaseInitTimeoutMs = 1500;
 
 m5::PY32IOExpander_Class base;
+Si12T headTouch(SI12T_Type_Low, SI12T_Sensitivity_Level_3);
 bool baseReady = false;
 bool ledOn = false;
+bool useGreen = false;
 uint32_t lastBlinkMs = 0;
+// 起動時にすでに指が触れていても、一度離してから反応する。
+bool stableTouch = true;
+bool candidateTouch = true;
+uint32_t candidateSinceMs = 0;
 
 bool initializeBase() {
   const uint32_t startedMs = millis();
@@ -65,11 +74,32 @@ bool initializeBase() {
 }
 
 void setLed(bool enabled) {
+  const uint8_t intensity = enabled ? kLedIntensity : 0;
   for (uint8_t index = 0; index < kLedCount; ++index) {
-    base.setLedColor(index, uint8_t(0), uint8_t(0),
-                     enabled ? kLedBlue : uint8_t(0));
+    base.setLedColor(index, 0, useGreen ? intensity : 0,
+                     useGreen ? 0 : intensity);
   }
   base.refreshLeds();
+}
+
+bool headWasPressed(uint32_t nowMs) {
+  uint8_t result = 0;
+  if (!headTouch.readRegister(SI12T_OUTPUT1_ADDR, &result, sizeof(result))) {
+    // 通信エラーは指を離したことにせず、判定途中の入力も破棄する。
+    candidateTouch = stableTouch;
+    return false;
+  }
+
+  const bool touching = (result & kHeadTouchMask) != 0;
+  if (touching != candidateTouch) {
+    candidateTouch = touching;
+    candidateSinceMs = nowMs;
+  }
+  if (candidateTouch == stableTouch || nowMs - candidateSinceMs < kTouchDebounceMs) {
+    return false;
+  }
+  stableTouch = candidateTouch;
+  return stableTouch;
 }
 }  // namespace
 
@@ -88,7 +118,7 @@ void setup() {
   M5.Display.setTextSize(2);
   M5.Display.setCursor(12, 16);
   M5.Display.println("StackChan");
-  M5.Display.println(" Minimal offline v0.1");
+  M5.Display.println(" Minimal offline v0.2");
 
   baseReady = initializeBase();
   if (!baseReady) {
@@ -99,11 +129,12 @@ void setup() {
     return;
   }
 
+  headTouch.begin();
   M5.Display.setTextColor(TFT_GREEN, TFT_BLACK);
   M5.Display.println(" Offline ready");
   M5.Display.setTextColor(TFT_WHITE, TFT_BLACK);
   M5.Display.println(" Servo power: OFF cmd");
-  M5.Display.println(" LED: dim blue blink");
+  M5.Display.println(" Top touch: LED color");
   Serial.println("[boot] minimal_offline; servo_power_off_requested");
   lastBlinkMs = millis();
 }
@@ -111,10 +142,19 @@ void setup() {
 void loop() {
   M5.update();
   const uint32_t nowMs = millis();
-  if (baseReady && nowMs - lastBlinkMs >= kBlinkIntervalMs) {
-    lastBlinkMs = nowMs;
-    ledOn = !ledOn;
-    setLed(ledOn);
+  if (baseReady) {
+    const bool colorChanged = headWasPressed(nowMs);
+    if (colorChanged) {
+      useGreen = !useGreen;
+    }
+    const bool blinkChanged = nowMs - lastBlinkMs >= kBlinkIntervalMs;
+    if (blinkChanged) {
+      lastBlinkMs = nowMs;
+      ledOn = !ledOn;
+    }
+    if (blinkChanged || (colorChanged && ledOn)) {
+      setLed(ledOn);
+    }
   }
   delay(10);
 }
