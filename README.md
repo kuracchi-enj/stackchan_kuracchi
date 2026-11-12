@@ -9,6 +9,7 @@
 - [カスタマイズ計画・初版](docs/superpowers/plans/2026-10-31-stackchan-customization.md)：全体像、作業手順、完了条件、復旧、安全対策。
 - [調査メモ](docs/research/2026-10-31-stackchan-feasibility.md)：公式資料、PicoRuby移植の対応状況、確認できていない点。
 - [v0.0.1の作業まとめ](docs/releases/v0.0.1.md)：自作の最小プログラムをK151へ書き込み、初回動作を確認するまでの記録。
+- [上部タッチで点滅色を切り替える](docs/touch-led.md)：青と緑を切り替える操作と検証記録。
 - [最初の書き込み手順](docs/first-flash.md)：画面とLEDだけの最小プログラムを試す手順。
 - [開発環境](docs/toolchain.md)：このプロジェクト内だけに用意するビルド環境。
 - [実機の初期状態](docs/device-baseline.md)と[復旧手順](docs/recovery.md)：書き込み前の確認事項。
